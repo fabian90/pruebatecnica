@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ModelContext" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Ciudad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="departamento_id" Type="Int64" />
+    <Property Name="estado" Type="Boolean" />
+    <NavigationProperty Name="Departamento" Relationship="Self.FK_Ciudad_Departamento" FromRole="Ciudad" ToRole="Departamento" />
+    <NavigationProperty Name="Pronostico" Relationship="Self.FK_Pronostico_Ciudad" FromRole="Ciudad" ToRole="Pronostico" />
+  </EntityType>
+  <EntityType Name="Departamento">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="pais_id" Type="Int64" />
+    <Property Name="estado" Type="Boolean" />
+    <NavigationProperty Name="Ciudad" Relationship="Self.FK_Ciudad_Departamento" FromRole="Departamento" ToRole="Ciudad" />
+    <NavigationProperty Name="Pais" Relationship="Self.FK_Departamento_Pais" FromRole="Departamento" ToRole="Pais" />
+  </EntityType>
+  <EntityType Name="Pais">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Departamento" Relationship="Self.FK_Departamento_Pais" FromRole="Pais" ToRole="Departamento" />
+  </EntityType>
+  <EntityType Name="Pronostico">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="municipio_id" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Ciudad" Relationship="Self.FK_Pronostico_Ciudad" FromRole="Pronostico" ToRole="Ciudad" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Clave" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Ciudad_Departamento">
+    <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+    <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departamento">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Ciudad">
+        <PropertyRef Name="departamento_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pronostico_Ciudad">
+    <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="0..1" />
+    <End Role="Pronostico" Type="Self.Pronostico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Pronostico">
+        <PropertyRef Name="municipio_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Departamento_Pais">
+    <End Role="Pais" Type="Self.Pais" Multiplicity="0..1" />
+    <End Role="Departamento" Type="Self.Departamento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pais">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Departamento">
+        <PropertyRef Name="pais_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="climaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Ciudad" EntityType="Self.Ciudad" />
+    <EntitySet Name="Departamento" EntityType="Self.Departamento" />
+    <EntitySet Name="Pais" EntityType="Self.Pais" />
+    <EntitySet Name="Pronostico" EntityType="Self.Pronostico" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <AssociationSet Name="FK_Ciudad_Departamento" Association="Self.FK_Ciudad_Departamento">
+      <End Role="Departamento" EntitySet="Departamento" />
+      <End Role="Ciudad" EntitySet="Ciudad" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pronostico_Ciudad" Association="Self.FK_Pronostico_Ciudad">
+      <End Role="Ciudad" EntitySet="Ciudad" />
+      <End Role="Pronostico" EntitySet="Pronostico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Departamento_Pais" Association="Self.FK_Departamento_Pais">
+      <End Role="Pais" EntitySet="Pais" />
+      <End Role="Departamento" EntitySet="Departamento" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

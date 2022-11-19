@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="climaModelStoreContainer" CdmEntityContainer="ClimaEntities">
+    <EntitySetMapping Name="USUARIO">
+      <EntityTypeMapping TypeName="climaModel.USUARIO">
+        <MappingFragment StoreEntitySet="USUARIO">
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+          <ScalarProperty Name="Correo" ColumnName="Correo" />
+          <ScalarProperty Name="Clave" ColumnName="Clave" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_RegistrarUsario" FunctionName="climaModel.Store.sp_RegistrarUsario" />
+    <FunctionImportMapping FunctionImportName="sp_validarUsuario" FunctionName="climaModel.Store.sp_validarUsuario" />
+    <EntitySetMapping Name="CLIMA">
+      <EntityTypeMapping TypeName="climaModel.CLIMA">
+        <MappingFragment StoreEntitySet="CLIMA">
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

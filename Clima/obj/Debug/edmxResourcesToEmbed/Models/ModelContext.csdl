@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="climaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="USUARIO">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Clave" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="ClimaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+    <FunctionImport Name="sp_RegistrarUsario">
+      <Parameter Name="Correo" Mode="In" Type="String" />
+      <Parameter Name="Clave" Mode="In" Type="String" />
+      <Parameter Name="Registrar" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Mensaje" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_validarUsuario" ReturnType="Collection(Int32)">
+      <Parameter Name="Correo" Mode="In" Type="String" />
+      <Parameter Name="Clave" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="CLIMA" EntityType="climaModel.CLIMA" />
+  </EntityContainer>
+  <EntityType Name="CLIMA">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+</Schema>

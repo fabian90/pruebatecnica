@@ -1,0 +1,70 @@
+﻿@*@model IEnumerable<Common.PageList>*@
+@model Common.PageList
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Pagina Principal de Clima";
+    int i = 0;
+}
+
+<h2>Listado</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Create")
+</p>
+<table class="table table-sm table-dark table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.pronosticos[0].Nombre)
+            </th>
+            <th>
+                @Html.DisplayName("Descripción")
+            </th>
+            <th>
+                @Html.DisplayName("Departamento")
+            </th>
+            <th>
+                @Html.DisplayName("Municipio")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pronosticos[0].Fecha)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.pronosticos)
+        {
+            <tr>
+                <th scope="row">@(i=i+1)</th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ciudad.Departamento.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ciudad.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.id }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    Page @(Model.pronosticos.PageCount < Model.pronosticos.PageNumber ? 0 : Model.pronosticos.PageNumber) of @Model.pronosticos.PageCount
+    @Html.PagedListPager(Model.pronosticos, page => Url.Action("Index", new {page}))
+
+</div>
